@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Temperature Converter</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(to right, #6dd5ed, #2193b0);
+            color: #fff;
+        }
+        .converter {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+        }
+        .input-group {
+            margin: 15px 0;
+            display: flex;
+            flex-direction: column;
+        }
+        .input-group label {
+            margin-bottom: 5px;
+            font-size: 1.1em;
+        }
+        .input-group input, .input-group select {
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            font-size: 1em;
+        }
+        .input-group input:focus, .input-group select:focus {
+            outline: none;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+        }
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background: #2193b0;
+            color: #fff;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        button:hover {
+            background: #6dd5ed;
+        }
+        .result {
+            margin-top: 20px;
+            font-size: 1.5em;
+            color: #fff;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+        }
+    </style>
+</head>
+<body>
+
+<div class="converter">
+    <h1>Temperature Converter</h1>
+    <div class="input-group">
+        <label for="temperature">Enter temperature:</label>
+        <input type="text" id="temperature" placeholder="Temperature">
+    </div>
+    <div class="input-group">
+        <label for="unit">Convert from:</label>
+        <select id="unit">
+            <option value="Celsius">Celsius</option>
+            <option value="Fahrenheit">Fahrenheit</option>
+            <option value="Kelvin">Kelvin</option>
+        </select>
+    </div>
+    <button onclick="convertTemperature()">Convert</button>
+    <div class="result" id="result"></div>
+</div>
+
+<script>
+    function convertTemperature() {
+        const tempInput = document.getElementById('temperature').value;
+        const unit = document.getElementById('unit').value;
+        const resultDiv = document.getElementById('result');
+
+        // Validate input
+        const temperature = parseFloat(tempInput);
+        if (isNaN(temperature)) {
+            resultDiv.textContent = 'Please enter a valid number!';
+            return;
+        }
+
+        let convertedTemp;
+        let targetUnit;
+
+        if (unit === 'Celsius') {
+            convertedTemp = (temperature * 9/5) + 32;
+            targetUnit = 'Fahrenheit';
+        } else if (unit === 'Fahrenheit') {
+            convertedTemp = (temperature - 32) * 5/9;
+            targetUnit = 'Celsius';
+        } else if (unit === 'Kelvin') {
+            convertedTemp = temperature - 273.15;
+            targetUnit = 'Celsius';
+        } else {
+            resultDiv.textContent = 'Please select a valid unit!';
+            return;
+        }
+
+        if (unit === 'Celsius' || unit === 'Kelvin') {
+            convertedTemp = convertedTemp + 273.15;
+            targetUnit = 'Kelvin';
+        }
+
+        resultDiv.textContent = `Converted Temperature: ${convertedTemp.toFixed(2)} °${targetUnit}`;
+    }
+</script>
+
+</body>
+</html>
